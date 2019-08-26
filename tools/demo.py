@@ -26,6 +26,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os, cv2
 import argparse
+import random
+import blob
 
 from nets.vgg16 import vgg16
 from nets.resnet_v1 import resnetv1
@@ -149,8 +151,8 @@ if __name__ == '__main__':
 
     print('Loaded network {:s}'.format(tfmodel))
 
-    im_names = ['000456.jpg', '000542.jpg', '001150.jpg',
-                '001763.jpg', '004545.jpg']
+    im_names = glob.glob(os.path.join(cfg.DATA_DIR, 'demo', '*.png')) + \
+               glob.glob(os.path.join(cfg.DATA_DIR, 'demo', '*.jpg'))
     for im_name in im_names:
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         print('Demo for data/demo/{}'.format(im_name))
