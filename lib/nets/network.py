@@ -20,6 +20,8 @@ from layer_utils.proposal_top_layer import proposal_top_layer, proposal_top_laye
 from layer_utils.anchor_target_layer import anchor_target_layer
 from layer_utils.proposal_target_layer import proposal_target_layer
 from utils.visualization import draw_bounding_boxes
+import roi_pooling_layer.roi_pooling_op as roi_pool_op
+import roi_pooling_layer.roi_pooling_op_grad
 
 from model.config import cfg
 
@@ -130,13 +132,18 @@ class Network(object):
 
     return rois, rpn_scores
 
-  # Only use it if you have roi_pooling op written in tf.image
   def _roi_pool_layer(self, bootom, rois, name):
+    print('ROI Pooling...')
     with tf.variable_scope(name) as scope:
-      return tf.image.roi_pooling(bootom, rois,
-                                  pooled_height=cfg.POOLING_SIZE,
-                                  pooled_width=cfg.POOLING_SIZE,
-                                  spatial_scale=1. / 16.)[0]
+      return roi_pool_op.roi_pool(bootom, rois,
+                                    pooled_height=cfg.POOLING_SIZE,
+                                    pooled_width=cfg.POOLING_SIZE,
+                                    spatial_scale=1. / 16.,
+                                    name=name)[0]
+      #return tf.image.roi_pooling(bootom, rois,
+      #                            pooled_height=cfg.POOLING_SIZE,
+      #                            pooled_width=cfg.POOLING_SIZE,
+      #                            spatial_scale=1. / 16.)[0]
 
   def _crop_pool_layer(self, bottom, rois, name):
     with tf.variable_scope(name) as scope:
