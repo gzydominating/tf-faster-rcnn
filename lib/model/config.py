@@ -275,7 +275,7 @@ __C.USE_GPU_NMS = True
 __C.USE_E2E_TF = True
 
 # Default pooling mode, only 'crop' is available
-__C.POOLING_MODE = 'crop'
+__C.POOLING_MODE = 'roi'
 
 # Size of the pooled region after RoI pooling
 __C.POOLING_SIZE = 7
