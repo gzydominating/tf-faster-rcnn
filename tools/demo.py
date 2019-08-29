@@ -27,7 +27,7 @@ import numpy as np
 import os, cv2
 import argparse
 import random
-import blob
+import glob
 
 from nets.vgg16 import vgg16
 from nets.resnet_v1 import resnetv1
