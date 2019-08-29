@@ -253,10 +253,10 @@ class Network(object):
       # region proposal network
       rois = self._region_proposal(net_conv, is_training, initializer)
       # region of interest pooling
-      if cfg.POOLING_MODE == 'crop':
-        pool5 = self._crop_pool_layer(net_conv, rois, "pool5")
+      if cfg.POOLING_MODE == 'roi':
+        pool5 = self._roi_pool_layer(net_conv, rois, "pool5")
       else:
-        raise NotImplementedError
+        pool5 = self._crop_pool_layer(net_conv, rois, "pool5")
 
     fc7 = self._head_to_tail(pool5, is_training)
     with tf.variable_scope(self._scope, self._scope):
